@@ -34,13 +34,11 @@ def get_gold_price():
     try:
         response = requests.get("https://api.metals.live/v1/spot")
         data = response.json()
-        if isinstance(data, list):
-            for item in data:
-                if isinstance(item, dict) and 'gold' in item:
-                    return item['gold']
-    except Exception as e:
-        print("Gold price fetch error:", e)
-    return None  # fallback can be added here if needed
+        for item in data:
+            if 'gold' in item:
+                return item['gold']
+    except:
+        return None
 
 def get_crypto_price(symbol):
     url = f"https://api.coingecko.com/api/v3/simple/price?ids={symbol}&vs_currencies=usd"
@@ -107,3 +105,4 @@ ax.axis('equal')
 st.pyplot(fig)
 
 st.caption("📅 Updates weekly · Live prices from CoinGecko, Yahoo Finance, and Metals.live")
+
